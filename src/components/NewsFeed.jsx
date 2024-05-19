@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsPost from "./NewsPost";
 import * as styles from "./NewsFeed.module.css";
 
 const NewsFeed = () => {
   const [feed, setFeed] = useState("");
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState(
+    JSON.parse(localStorage.getItem("newNews")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("newNews", JSON.stringify(news));
+  }, [news]);
 
   function handleInput(event) {
     setFeed(event.target.value);

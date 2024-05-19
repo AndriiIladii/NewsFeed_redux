@@ -8,6 +8,11 @@ const NewsPost = ({ news }) => {
         {news.map((item) => (
           <li className={styles.feedItem} key={item.id}>
             <p>{item.value}</p>
+            <div>
+              <button>Like</button>
+              <button>Comment</button>
+              <button>Share</button>
+            </div>
           </li>
         ))}
       </ul>
