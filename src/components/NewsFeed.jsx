@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import NewsPost from "./NewsPost";
 import * as styles from "./NewsFeed.module.css";
 
 const NewsFeed = () => {
@@ -16,7 +17,7 @@ const NewsFeed = () => {
         value: feed,
       };
 
-      const updateNews = [...news, newNews];
+      const updateNews = [newNews, ...news];
       setNews(updateNews);
       setFeed("");
     }
@@ -36,15 +37,7 @@ const NewsFeed = () => {
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
-      <div>
-        <ul className={styles.newsFeed}>
-          {news.map((item) => (
-            <li key={item.id}>
-              <p>{item.value}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <NewsPost news={news} />
     </div>
   );
 };
