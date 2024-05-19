@@ -7,6 +7,16 @@
   background-color: #fff;
   border: 1px solid #5972a7;
   width: 500px;
-  padding: 5px 0 20px 5px;
+  padding: 5px;
   margin-bottom: 20px;
+}
+
+.postBtns {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.likeBtn span {
+  margin-right: 5px;
 }
