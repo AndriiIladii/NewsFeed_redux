@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, setNews }) => {
-  const [likes, setLikes] = useState(0);
-
   function handleLikes(id) {
     let updateLikes = news.map((item) =>
       item.id === id ? { ...item, likes: item.likes + 1 } : item
@@ -22,7 +20,7 @@ const NewsPost = ({ news, setNews }) => {
                 className={styles.likeBtn}
                 onClick={() => handleLikes(item.id)}
               >
-                <span>{likes}</span>
+                <span>{item.likes}</span>
                 Like
               </button>
               <button>Comment</button>
