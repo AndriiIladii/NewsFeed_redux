@@ -21,6 +21,7 @@ const NewsFeed = () => {
       const newNews = {
         id: Date.now(),
         value: feed,
+        likes: 0,
       };
 
       const updateNews = [newNews, ...news];
@@ -43,7 +44,7 @@ const NewsFeed = () => {
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
-      <NewsPost news={news} />
+      <NewsPost news={news} setNews={setNews} />
     </div>
   );
 };
