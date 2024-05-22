@@ -27,7 +27,7 @@ const NewsPost = ({ news, setNews }) => {
     <div>
       <ul className={styles.newsFeed}>
         {news.map((item) => (
-          <li className={styles.feedItem} id={item.id} key={item.id}>
+          <li className={styles.feedItem} key={item.id}>
             <p>{item.value}</p>
             <div className={styles.postBtns}>
               <button
