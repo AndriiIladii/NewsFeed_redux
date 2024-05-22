@@ -10,12 +10,15 @@ const NewsPost = ({ news, setNews }) => {
   }
 
   function handleShare(id) {
-    const url = `${id}`;
+    const url = `https://example.com/news/${id};`;
     const el = document.createElement("textarea");
     el.value = url;
+
     document.body.appendChild(el);
     el.select();
+
     document.execCommand("copy");
+
     console.log("The data copied successfully! press `ctrl+v` to see output");
     document.body.removeChild(el);
   }
@@ -24,7 +27,7 @@ const NewsPost = ({ news, setNews }) => {
     <div>
       <ul className={styles.newsFeed}>
         {news.map((item) => (
-          <li className={styles.feedItem} key={item.id}>
+          <li className={styles.feedItem} id={item.id} key={item.id}>
             <p>{item.value}</p>
             <div className={styles.postBtns}>
               <button
