@@ -9,6 +9,17 @@ const NewsPost = ({ news, setNews }) => {
     setNews(updateLikes);
   }
 
+  function handleShare(id) {
+    const url = `${id}`;
+    const el = document.createElement("textarea");
+    el.value = url;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    console.log("The data copied successfully! press `ctrl+v` to see output");
+    document.body.removeChild(el);
+  }
+
   return (
     <div>
       <ul className={styles.newsFeed}>
@@ -24,7 +35,7 @@ const NewsPost = ({ news, setNews }) => {
                 Like
               </button>
               <button>Comment</button>
-              <button>Share</button>
+              <button onClick={() => handleShare(item.id)}>Share</button>
             </div>
           </li>
         ))}
