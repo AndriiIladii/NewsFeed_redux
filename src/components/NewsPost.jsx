@@ -10,7 +10,7 @@ const NewsPost = ({ news, setNews }) => {
   }
 
   function handleShare(id) {
-    const url = `https://localhost:3000/#${id}`;
+    const url = `http://localhost:3000/#${id}`;
     const el = document.createElement("textarea");
     el.value = url;
 
