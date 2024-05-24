@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NewsPost from "./NewsPost";
 
 const NewsFeed = ({ news, setNews }) => {
+  useEffect(() => {
+    console.log(location.hash.substring(1));
+  });
+
   function handleLikes(id) {
     let updateLikes = news.map((item) =>
       item.id === id ? { ...item, likes: item.likes + 1 } : item
