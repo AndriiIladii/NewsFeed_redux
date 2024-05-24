@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NewsFeed from "./NewsFeed";
 import * as styles from "./NewsPage.module.css";
 
@@ -7,6 +7,8 @@ const NewsPage = () => {
   const [news, setNews] = useState(
     JSON.parse(localStorage.getItem("newNews")) || []
   );
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,7 +36,7 @@ const NewsPage = () => {
         id: Date.now(),
         value: feed,
         likes: 0,
-        image: image,
+        image: fileInputRef.current.files,
       };
 
       const updateNews = [newNews, ...news];
@@ -60,7 +62,7 @@ const NewsPage = () => {
         Add news
       </button>
       <div>
-        <input type="file" />
+        <input ref={fileInputRef} type="file" />
       </div>
       <NewsFeed news={news} setNews={setNews} />
     </div>
