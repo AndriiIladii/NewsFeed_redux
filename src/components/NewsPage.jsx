@@ -29,11 +29,12 @@ const NewsPage = () => {
   }
 
   function addNews() {
-    if (news !== "") {
+    if (feed !== "") {
       const newNews = {
         id: Date.now(),
         value: feed,
         likes: 0,
+        image: image,
       };
 
       const updateNews = [newNews, ...news];
