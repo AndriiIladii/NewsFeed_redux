@@ -1,28 +1,7 @@
 import React from "react";
 import * as styles from "./NewsPost.module.css";
 
-const NewsPost = ({ news, setNews }) => {
-  function handleLikes(id) {
-    let updateLikes = news.map((item) =>
-      item.id === id ? { ...item, likes: item.likes + 1 } : item
-    );
-    setNews(updateLikes);
-  }
-
-  function handleShare(id) {
-    const url = `http://localhost:3000/#${id}`;
-    const el = document.createElement("textarea");
-    el.value = url;
-
-    document.body.appendChild(el);
-    el.select();
-
-    document.execCommand("copy");
-
-    console.log("The data copied successfully! press `ctrl+v` to see output");
-    document.body.removeChild(el);
-  }
-
+const NewsPost = ({ news, handleLikes, handleShare }) => {
   return (
     <div>
       <ul className={styles.newsFeed}>
