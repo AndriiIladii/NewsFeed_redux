@@ -57,13 +57,13 @@ const NewsPage = () => {
           onChange={handleInput}
         />
       </div>
-
-      <button className={styles.newsBtn} onClick={addNews}>
-        Add news
-      </button>
       <div>
         <input ref={fileInputRef} type="file" />
       </div>
+      <button className={styles.newsBtn} onClick={addNews}>
+        Add news
+      </button>
+
       <NewsFeed news={news} setNews={setNews} />
     </div>
   );
