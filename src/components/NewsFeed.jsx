@@ -2,18 +2,6 @@ import React, { useEffect } from "react";
 import NewsPost from "./NewsPost";
 
 const NewsFeed = ({ news, setNews }) => {
-  useEffect(() => {
-    setTimeout(() => {
-      const id = location.hash.substring(1);
-      if (id) {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    }, 500);
-  });
-
   function handleLikes(id) {
     let updateLikes = news.map((item) =>
       item.id === id ? { ...item, likes: item.likes + 1 } : item

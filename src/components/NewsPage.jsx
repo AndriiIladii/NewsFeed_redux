@@ -9,6 +9,18 @@ const NewsPage = () => {
   );
 
   useEffect(() => {
+    setTimeout(() => {
+      const id = location.hash.substring(1);
+      if (id) {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 500);
+  });
+
+  useEffect(() => {
     localStorage.setItem("newNews", JSON.stringify(news));
   }, [news]);
 
@@ -42,9 +54,13 @@ const NewsPage = () => {
           onChange={handleInput}
         />
       </div>
+
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
+      <div>
+        <input type="file" />
+      </div>
       <NewsFeed news={news} setNews={setNews} />
     </div>
   );
