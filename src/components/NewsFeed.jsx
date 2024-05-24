@@ -3,7 +3,15 @@ import NewsPost from "./NewsPost";
 
 const NewsFeed = ({ news, setNews }) => {
   useEffect(() => {
-    console.log(location.hash.substring(1));
+    setTimeout(() => {
+      const id = location.hash.substring(1);
+      if (id) {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 500);
   });
 
   function handleLikes(id) {
