@@ -10,6 +10,15 @@ const NewsPage = () => {
 
   const fileInputRef = useRef(null);
 
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
   useEffect(() => {
     setTimeout(() => {
       const id = location.hash.substring(1);
@@ -30,13 +39,17 @@ const NewsPage = () => {
     setFeed(event.target.value);
   }
 
-  function addNews() {
+  async function addNews() {
     if (feed !== "") {
+      let image = fileInputRef.current.files[0];
+
+      image = await getBase64(image);
+
       const newNews = {
         id: Date.now(),
         value: feed,
         likes: 0,
-        image: fileInputRef.current.files,
+        image: image,
       };
 
       const updateNews = [newNews, ...news];
