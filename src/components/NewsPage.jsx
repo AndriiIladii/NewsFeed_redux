@@ -59,20 +59,6 @@ const NewsPage = () => {
     }
   }
 
-  function handleCommentSubmit(postId, comment) {
-    const updatedNews = news.map((item) => {
-      if (item.id === postId) {
-        return {
-          ...item,
-          comments: [...item.comments, comment],
-        };
-      }
-      return item;
-    });
-
-    setNews(updatedNews);
-  }
-
   return (
     <div className={styles.container}>
       <h1>News Feed</h1>
@@ -92,11 +78,7 @@ const NewsPage = () => {
         Add news
       </button>
 
-      <NewsFeed
-        news={news}
-        setNews={setNews}
-        handleCommentSubmit={handleCommentSubmit}
-      />
+      <NewsFeed news={news} setNews={setNews} fileInputRef={fileInputRef} />
     </div>
   );
 };

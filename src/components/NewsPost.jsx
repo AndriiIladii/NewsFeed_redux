@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
-const NewsPost = ({ news, handleLikes, handleShare }) => {
-  const [comment, setComment] = useState("");
+const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
+  const [comment, setComment] = useState(
+    JSON.parse(localStorage.getItem("newComment")) || []
+  );
   const [commentId, setCommentId] = useState(null);
 
   function handleCommentChange(e) {
@@ -11,6 +13,26 @@ const NewsPost = ({ news, handleLikes, handleShare }) => {
 
   function handleComment(id) {
     setCommentId(id);
+  }
+
+  async function addComment() {
+    if (comment !== "") {
+      let image = fileInputRef.current.files[0];
+
+      image = await getBase64(image);
+
+      const newComment = {
+        id: Date.now(),
+        value: comment,
+        likes: 0,
+        image: image,
+      };
+
+      const updateNews = [newComment, ...comment];
+      setNews(updateNews);
+      setFeed("");
+      image = "";
+    }
   }
 
   return (
@@ -34,11 +56,13 @@ const NewsPost = ({ news, handleLikes, handleShare }) => {
             {commentId === item.id && (
               <div>
                 <input
+                  className={styles.comments}
                   type="text"
                   value={comment}
                   onChange={handleCommentChange}
                   placeholder="Write a comment..."
                 />
+                <button onClick={addComment}>Add comment</button>
               </div>
             )}
           </li>
