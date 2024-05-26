@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
-  const [comment, setComment] = useState(
-    JSON.parse(localStorage.getItem("newComment")) || []
-  );
+  const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
 
   function handleCommentChange(e) {
@@ -28,8 +26,8 @@ const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
         image: image,
       };
 
-      const updateNews = [newComment, ...comment];
-      setNews(updateNews);
+      const updateComment = [newComment, ...comment];
+      setNews(updateComment);
       setFeed("");
       image = "";
     }
