@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, handleLikes, handleShare }) => {
+  const [comment, setComment] = useState("");
+  const [commentId, setCommentId] = useState(null);
+
+  function handleCommentChange(e) {
+    setComment(e.target.value);
+  }
+
+  function handleComment(id) {
+    setCommentId(id);
+  }
+
   return (
     <div>
       <ul className={styles.newsFeed}>
@@ -17,9 +28,19 @@ const NewsPost = ({ news, handleLikes, handleShare }) => {
                 <span>{item.likes}</span>
                 Like
               </button>
-              <button>Comment</button>
+              <button onClick={() => handleComment(item.id)}>Comment</button>
               <button onClick={() => handleShare(item.id)}>Share</button>
             </div>
+            {commentId === item.id && (
+              <div>
+                <input
+                  type="text"
+                  value={comment}
+                  onChange={handleCommentChange}
+                  placeholder="Write a comment..."
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>
