@@ -3,6 +3,10 @@
   margin-top: 50px;
 }
 
+.comments {
+  list-style: none;
+}
+
 .feedItem {
   background-color: #fff;
   border: 1px solid #5972a7;

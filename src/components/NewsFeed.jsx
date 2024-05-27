@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NewsPost from "./NewsPost";
 
 const NewsFeed = ({ news, setNews }) => {
@@ -24,7 +24,12 @@ const NewsFeed = ({ news, setNews }) => {
   }
 
   return (
-    <NewsPost news={news} handleLikes={handleLikes} handleShare={handleShare} />
+    <NewsPost
+      news={news}
+      handleLikes={handleLikes}
+      handleShare={handleShare}
+      setNews={setNews}
+    />
   );
 };
 

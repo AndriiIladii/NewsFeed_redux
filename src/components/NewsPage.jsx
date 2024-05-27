@@ -50,6 +50,7 @@ const NewsPage = () => {
         value: feed,
         likes: 0,
         image: image,
+        comments: [],
       };
 
       const updateNews = [newNews, ...news];
@@ -78,7 +79,7 @@ const NewsPage = () => {
         Add news
       </button>
 
-      <NewsFeed news={news} setNews={setNews} fileInputRef={fileInputRef} />
+      <NewsFeed news={news} setNews={setNews} />
     </div>
   );
 };

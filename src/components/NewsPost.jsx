@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
-const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
+const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [commentId, setCommentId] = useState(null);
 
   function handleCommentChange(e) {
@@ -13,23 +14,16 @@ const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
     setCommentId(id);
   }
 
-  async function addComment() {
+  function addComment() {
     if (comment !== "") {
-      let image = fileInputRef.current.files[0];
-
-      image = await getBase64(image);
-
       const newComment = {
         id: Date.now(),
         value: comment,
-        likes: 0,
-        image: image,
       };
 
-      const updateComment = [newComment, ...comment];
-      setNews(updateComment);
-      setFeed("");
-      image = "";
+      const updateComment = [...comments, newComment];
+      setComments(updateComment);
+      setComment("");
     }
   }
 
@@ -61,6 +55,13 @@ const NewsPost = ({ news, handleLikes, handleShare, fileInputRef }) => {
                   placeholder="Write a comment..."
                 />
                 <button onClick={addComment}>Add comment</button>
+                <ul className={styles.comments}>
+                  {comments.map((commentItem) => (
+                    <li key={commentItem.id}>
+                      <p>{commentItem.value}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </li>
