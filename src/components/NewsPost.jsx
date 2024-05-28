@@ -3,7 +3,6 @@ import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
   const [commentId, setCommentId] = useState(null);
 
   function handleCommentChange(e) {
@@ -21,8 +20,16 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
         value: comment,
       };
 
-      const updateComment = [...comments, newComment];
-      setComments(updateComment);
+      const updateComment = news.map((item) => {
+        if (item.id === commentId) {
+          return {
+            ...item,
+            comments: [...item.comments, newComment],
+          };
+        }
+        return item;
+      });
+      setNews(updateComment);
       setComment("");
     }
   }
@@ -56,9 +63,11 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                 />
                 <button onClick={addComment}>Add comment</button>
                 <ul className={styles.comments}>
-                  {comments.map((commentItem) => (
+                  {item.comments.map((commentItem) => (
                     <li key={commentItem.id}>
                       <p>{commentItem.value}</p>
+                      <button>Edit</button>
+                      <button>Delete</button>
                     </li>
                   ))}
                 </ul>

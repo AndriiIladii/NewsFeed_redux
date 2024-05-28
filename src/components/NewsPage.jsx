@@ -56,7 +56,7 @@ const NewsPage = () => {
       const updateNews = [newNews, ...news];
       setNews(updateNews);
       setFeed("");
-      image = "";
+      fileInputRef.current.value = null;
     }
   }
 
