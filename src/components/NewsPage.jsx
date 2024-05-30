@@ -43,7 +43,9 @@ const NewsPage = () => {
     if (feed !== "") {
       let image = fileInputRef.current.files[0];
 
-      image = await getBase64(image);
+      if (image) {
+        image = await getBase64(image);
+      }
 
       const newNews = {
         id: Date.now(),

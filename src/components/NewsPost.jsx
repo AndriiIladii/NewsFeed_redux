@@ -40,7 +40,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
         {news.map((item) => (
           <li className={styles.feedItem} id={item.id} key={item.id}>
             <p>{item.value}</p>
-            {<img src={item.image} alt="news" />}
+            {item.image && <img src={item.image} alt="news" />}
             <div className={styles.postBtns}>
               <button
                 className={styles.likeBtn}
