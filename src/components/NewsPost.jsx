@@ -78,7 +78,9 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                 <li key={commentItem.id}>
                   <p>{commentItem.value}</p>
                   <button>Edit</button>
-                  <button onClick={() => deleteComment(newsPost.id)}>
+                  <button
+                    onClick={() => deleteComment(newsPost.id, commentItem.id)}
+                  >
                     Delete
                   </button>
                 </li>
