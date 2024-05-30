@@ -24,13 +24,14 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
         if (item.id === commentId) {
           return {
             ...item,
-            comments: [...item.comments, newComment],
+            comments: [newComment, ...item.comments],
           };
         }
         return item;
       });
       setNews(updateComment);
       setComment("");
+      setCommentId(null);
     }
   }
 
@@ -52,6 +53,15 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
               <button onClick={() => handleComment(item.id)}>Comment</button>
               <button onClick={() => handleShare(item.id)}>Share</button>
             </div>
+            <ul className={styles.comments}>
+              {item.comments.map((commentItem) => (
+                <li key={commentItem.id}>
+                  <p>{commentItem.value}</p>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </li>
+              ))}
+            </ul>
             {commentId === item.id && (
               <div>
                 <input
@@ -62,15 +72,6 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                   placeholder="Write a comment..."
                 />
                 <button onClick={addComment}>Add comment</button>
-                <ul className={styles.comments}>
-                  {item.comments.map((commentItem) => (
-                    <li key={commentItem.id}>
-                      <p>{commentItem.value}</p>
-                      <button>Edit</button>
-                      <button>Delete</button>
-                    </li>
-                  ))}
-                </ul>
               </div>
             )}
           </li>
