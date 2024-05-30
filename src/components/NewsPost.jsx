@@ -35,6 +35,24 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     }
   }
 
+  function deleteComment(id) {
+    const updateNews = news.map((item) => {
+      if (item.id === commentId) {
+        const updateDelete = item.comments.filter(
+          (comment) => comment.id !== id
+        );
+        return {
+          ...item,
+          comments: updateDelete,
+        };
+      }
+
+      return item;
+    });
+
+    setNews(updateNews);
+  }
+
   return (
     <div>
       <ul className={styles.newsFeed}>
@@ -58,7 +76,9 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                 <li key={commentItem.id}>
                   <p>{commentItem.value}</p>
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => deleteComment(item.comments.id)}>
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
