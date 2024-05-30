@@ -20,14 +20,14 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
         value: comment,
       };
 
-      const updateComment = news.map((item) => {
-        if (item.id === commentId) {
+      const updateComment = news.map((newsPost) => {
+        if (newsPost.id === commentId) {
           return {
-            ...item,
-            comments: [newComment, ...item.comments],
+            ...newsPost,
+            comments: [newComment, ...newsPost.comments],
           };
         }
-        return item;
+        return newsPost;
       });
       setNews(updateComment);
       setComment("");
@@ -35,19 +35,19 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     }
   }
 
-  function deleteComment(id) {
-    const updateNews = news.map((item) => {
-      if (item.id === commentId) {
-        const updateDelete = item.comments.filter(
+  function deleteComment(commentId, id) {
+    const updateNews = news.map((newsPost) => {
+      if (newsPost.id === commentId) {
+        const updateDelete = newsPost.comments.filter(
           (comment) => comment.id !== id
         );
         return {
-          ...item,
+          ...newsPost,
           comments: updateDelete,
         };
       }
 
-      return item;
+      return newsPost;
     });
 
     setNews(updateNews);
@@ -56,33 +56,35 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   return (
     <div>
       <ul className={styles.newsFeed}>
-        {news.map((item) => (
-          <li className={styles.feedItem} id={item.id} key={item.id}>
-            <p>{item.value}</p>
-            {item.image && <img src={item.image} alt="news" />}
+        {news.map((newsPost) => (
+          <li className={styles.feedItem} id={newsPost.id} key={newsPost.id}>
+            <p>{newsPost.value}</p>
+            {newsPost.image && <img src={newsPost.image} alt="news" />}
             <div className={styles.postBtns}>
               <button
                 className={styles.likeBtn}
-                onClick={() => handleLikes(item.id)}
+                onClick={() => handleLikes(newsPost.id)}
               >
-                <span>{item.likes}</span>
+                <span>{newsPost.likes}</span>
                 Like
               </button>
-              <button onClick={() => handleComment(item.id)}>Comment</button>
-              <button onClick={() => handleShare(item.id)}>Share</button>
+              <button onClick={() => handleComment(newsPost.id)}>
+                Comment
+              </button>
+              <button onClick={() => handleShare(newsPost.id)}>Share</button>
             </div>
             <ul className={styles.comments}>
-              {item.comments.map((commentItem) => (
+              {newsPost.comments.map((commentItem) => (
                 <li key={commentItem.id}>
                   <p>{commentItem.value}</p>
                   <button>Edit</button>
-                  <button onClick={() => deleteComment(item.comments.id)}>
+                  <button onClick={() => deleteComment(newsPost.id)}>
                     Delete
                   </button>
                 </li>
               ))}
             </ul>
-            {commentId === item.id && (
+            {commentId === newsPost.id && (
               <div>
                 <input
                   className={styles.comments}
