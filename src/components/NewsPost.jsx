@@ -63,12 +63,13 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     setEditedCommentId(commentId);
   }
 
-  function updateComment() {
+  function updateComment(commentId, editedCommentId) {
     const updatedNews = news.map((newsPost) => {
-      if (newsPost.id === editedCommentId) {
+      if (newsPost.id === commentId) {
         const updatedComments = newsPost.comments.map((comment) => {
           if (comment.id === editedCommentId) {
             return {
+              ...comment,
               value: commentEdit,
             };
           }
@@ -122,7 +123,13 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                         value={commentEdit}
                         onChange={handleCommentEdit}
                       />
-                      <button onClick={updateComment}>Save</button>
+                      <button
+                        onClick={() => {
+                          updateComment(newsPost.id, commentItem.id);
+                        }}
+                      >
+                        Save
+                      </button>
                       <button onClick={cancelUpdate}>Cancel</button>
                     </>
                   ) : (
