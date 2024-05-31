@@ -4,6 +4,8 @@ import * as styles from "./NewsPost.module.css";
 const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
+  const [commentEdit, setCommentEdit] = useState("");
+  const [editedCommentId, setEditedCommentId] = useState(null);
 
   function handleCommentChange(e) {
     setComment(e.target.value);
@@ -11,6 +13,10 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
 
   function handleComment(id) {
     setCommentId(id);
+  }
+
+  function handleCommentEdit(event) {
+    setCommentEdit(event.target.value);
   }
 
   function addComment() {
@@ -53,6 +59,16 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     setNews(updateNews);
   }
 
+  function editComment(commentId) {
+    setCommentEdit(commentId.value);
+    setEditedCommentId(commentId.id);
+  }
+
+  function cancelUpdate() {
+    setCommentEdit("");
+    setEditedCommentId(null);
+  }
+
   return (
     <div>
       <ul className={styles.newsFeed}>
@@ -76,13 +92,31 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
             <ul className={styles.comments}>
               {newsPost.comments.map((commentItem) => (
                 <li key={commentItem.id}>
-                  <p>{commentItem.value}</p>
-                  <button>Edit</button>
-                  <button
-                    onClick={() => deleteComment(newsPost.id, commentItem.id)}
-                  >
-                    Delete
-                  </button>
+                  {editedCommentId === commentItem.id ? (
+                    <>
+                      <input
+                        type="text"
+                        value={commentEdit}
+                        onChange={handleCommentEdit}
+                      />
+                      <button>Save</button>
+                      <button onClick={cancelUpdate}>Cancel</button>
+                    </>
+                  ) : (
+                    <>
+                      <p>{commentItem.value}</p>
+                      <button onClick={() => editComment(commentItem.id)}>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() =>
+                          deleteComment(newsPost.id, commentItem.id)
+                        }
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>
