@@ -60,8 +60,31 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   }
 
   function editComment(commentId) {
-    setCommentEdit(commentId.value);
-    setEditedCommentId(commentId.id);
+    setEditedCommentId(commentId);
+  }
+
+  function updateComment() {
+    const updatedNews = news.map((newsPost) => {
+      if (newsPost.id === editedCommentId) {
+        const updatedComments = newsPost.comments.map((comment) => {
+          if (comment.id === editedCommentId) {
+            return {
+              value: commentEdit,
+            };
+          }
+          return comment;
+        });
+
+        return {
+          ...newsPost,
+          comments: updatedComments,
+        };
+      }
+      return newsPost;
+    });
+    setNews(updatedNews);
+    setCommentEdit("");
+    setEditedCommentId(null);
   }
 
   function cancelUpdate() {
@@ -99,7 +122,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                         value={commentEdit}
                         onChange={handleCommentEdit}
                       />
-                      <button>Save</button>
+                      <button onClick={updateComment}>Save</button>
                       <button onClick={cancelUpdate}>Cancel</button>
                     </>
                   ) : (
