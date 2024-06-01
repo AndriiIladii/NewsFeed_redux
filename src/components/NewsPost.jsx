@@ -5,7 +5,6 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
   const [commentEdit, setCommentEdit] = useState("");
-  const [editedCommentId, setEditedCommentId] = useState(null);
 
   function handleCommentChange(e) {
     setComment(e.target.value);
@@ -59,15 +58,16 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     setNews(updateNews);
   }
 
-  function editComment(commentId) {
-    setEditedCommentId(commentId);
+  function editComment(commentId, value) {
+    setCommentId(commentId);
+    setCommentEdit(value);
   }
 
-  function updateComment(commentId, editedCommentId) {
+  function updateComment(PostId) {
     const updatedNews = news.map((newsPost) => {
-      if (newsPost.id === commentId) {
+      if (newsPost.id === PostId) {
         const updatedComments = newsPost.comments.map((comment) => {
-          if (comment.id === editedCommentId) {
+          if (comment.id === commentId) {
             return {
               ...comment,
               value: commentEdit,
@@ -85,12 +85,12 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     });
     setNews(updatedNews);
     setCommentEdit("");
-    setEditedCommentId(null);
+    setCommentId(null);
   }
 
   function cancelUpdate() {
     setCommentEdit("");
-    setEditedCommentId(null);
+    setCommentId(null);
   }
 
   return (
@@ -116,7 +116,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
             <ul className={styles.comments}>
               {newsPost.comments.map((commentItem) => (
                 <li key={commentItem.id}>
-                  {editedCommentId === commentItem.id ? (
+                  {commentId === commentItem.id ? (
                     <>
                       <input
                         type="text"
@@ -125,7 +125,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                       />
                       <button
                         onClick={() => {
-                          updateComment(newsPost.id, commentItem.id);
+                          updateComment(newsPost.id);
                         }}
                       >
                         Save
@@ -135,7 +135,11 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                   ) : (
                     <>
                       <p>{commentItem.value}</p>
-                      <button onClick={() => editComment(commentItem.id)}>
+                      <button
+                        onClick={() =>
+                          editComment(commentItem.id, commentItem.value)
+                        }
+                      >
                         Edit
                       </button>
                       <button
