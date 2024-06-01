@@ -4,7 +4,6 @@ import * as styles from "./NewsPost.module.css";
 const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
-  const [commentEdit, setCommentEdit] = useState("");
 
   function handleCommentChange(e) {
     setComment(e.target.value);
@@ -15,7 +14,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
   }
 
   function handleCommentEdit(event) {
-    setCommentEdit(event.target.value);
+    setComment(event.target.value);
   }
 
   function addComment() {
@@ -60,20 +59,20 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
 
   function editComment(commentId, value) {
     setCommentId(commentId);
-    setCommentEdit(value);
+    setComment(value);
   }
 
   function updateComment(PostId) {
     const updatedNews = news.map((newsPost) => {
       if (newsPost.id === PostId) {
-        const updatedComments = newsPost.comments.map((comment) => {
-          if (comment.id === commentId) {
+        const updatedComments = newsPost.comments.map((commentItem) => {
+          if (commentItem.id === commentId) {
             return {
-              ...comment,
-              value: commentEdit,
+              ...commentItem,
+              value: comment,
             };
           }
-          return comment;
+          return commentItem;
         });
 
         return {
@@ -84,12 +83,12 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
       return newsPost;
     });
     setNews(updatedNews);
-    setCommentEdit("");
+    setComment("");
     setCommentId(null);
   }
 
   function cancelUpdate() {
-    setCommentEdit("");
+    setComment("");
     setCommentId(null);
   }
 
@@ -120,7 +119,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
                     <>
                       <input
                         type="text"
-                        value={commentEdit}
+                        value={comment}
                         onChange={handleCommentEdit}
                       />
                       <button
