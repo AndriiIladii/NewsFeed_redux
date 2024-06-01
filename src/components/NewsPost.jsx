@@ -40,9 +40,9 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
     }
   }
 
-  function deleteComment(deleteId, id) {
+  function deleteComment(PostId, id) {
     const updateNews = news.map((newsPost) => {
-      if (newsPost.id === deleteId) {
+      if (newsPost.id === PostId) {
         const updateDelete = newsPost.comments.filter(
           (comment) => comment.id !== id
         );
