@@ -40,16 +40,19 @@ const NewsPage = () => {
     const links = [];
     const result = text.replace(urlRegex, function (url) {
       links.push(url);
-      return '<a href="' + url + '">' + url + "</a>";
+      return `{${links.length - 1}}`;
     });
-    console.log(result, links);
+
+    console.log(links);
+
+    return result;
   }
 
-  let text = "тест тест https://www.example.com/en тест тест";
-
-  let test = extractLinks(text);
-
-  console.log(test);
+  function testExtractLinks() {
+    let text = "тест тест https://www.example.com/en тест тест";
+    let test = extractLinks(text);
+    console.log(test);
+  }
 
   function handleInput(event) {
     setFeed(event.target.value);
@@ -96,7 +99,7 @@ const NewsPage = () => {
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
-      <button onClick={extractLinks}>Test Extract Links</button>
+      <button onClick={testExtractLinks}>Test Extract Links</button>
       <NewsFeed news={news} setNews={setNews} />
     </div>
   );
