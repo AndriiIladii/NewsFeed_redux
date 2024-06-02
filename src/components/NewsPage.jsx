@@ -36,22 +36,16 @@ const NewsPage = () => {
   }, [news]);
 
   function extractLinks(text) {
-    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    let urlRegex = /(https?:\/\/[^\s]+)/g;
     const links = [];
     const result = text.replace(urlRegex, function (url) {
       links.push(url);
-      return `{${links.length - 1}}`;
+      return `{link}`;
     });
 
     console.log(links);
 
-    return result;
-  }
-
-  function testExtractLinks() {
-    let text = "тест тест https://www.example.com/en тест тест";
-    let test = extractLinks(text);
-    console.log(test);
+    return [result, links];
   }
 
   function handleInput(event) {
@@ -61,17 +55,22 @@ const NewsPage = () => {
   async function addNews() {
     if (feed !== "") {
       let image = fileInputRef.current.files[0];
+      let links = [];
 
       if (image) {
         image = await getBase64(image);
       }
 
+      const [text, extractedLinks] = extractLinks(feed);
+      links = extractedLinks;
+
       const newNews = {
         id: Date.now(),
-        value: feed,
+        value: text,
         likes: 0,
         image: image,
         comments: [],
+        links: links,
       };
 
       const updateNews = [newNews, ...news];
@@ -99,7 +98,6 @@ const NewsPage = () => {
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
-      <button onClick={testExtractLinks}>Test Extract Links</button>
       <NewsFeed news={news} setNews={setNews} />
     </div>
   );
