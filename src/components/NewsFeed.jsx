@@ -1,7 +1,7 @@
 import React from "react";
 import NewsPost from "./NewsPost";
 
-const NewsFeed = ({ news, setNews }) => {
+const NewsFeed = ({ news, setNews, renderLinks }) => {
   function handleLikes(id) {
     let updateLikes = news.map((item) =>
       item.id === id ? { ...item, likes: item.likes + 1 } : item
@@ -29,6 +29,7 @@ const NewsFeed = ({ news, setNews }) => {
       handleLikes={handleLikes}
       handleShare={handleShare}
       setNews={setNews}
+      renderLinks={renderLinks}
     />
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
-const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
+const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
 
@@ -97,7 +97,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews }) => {
       <ul className={styles.newsFeed}>
         {news.map((newsPost) => (
           <li className={styles.feedItem} id={newsPost.id} key={newsPost.id}>
-            <p>{newsPost.value}</p>
+            <p>{renderLinks(newsPost.value, newsPost.links)} </p>
             {newsPost.image && <img src={newsPost.image} alt="news" />}
             <div className={styles.postBtns}>
               <button

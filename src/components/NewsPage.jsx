@@ -43,9 +43,17 @@ const NewsPage = () => {
       return `{link}`;
     });
 
-    console.log(links);
-
     return [result, links];
+  }
+
+  function renderLinks(str, links) {
+    const link = str.split("{link}");
+    return link.map((item, index) => {
+      <span key={index}>
+        {item}
+        {links[index] && <a href={links[index]}>{links[index]}</a>}
+      </span>;
+    });
   }
 
   function handleInput(event) {
@@ -98,7 +106,7 @@ const NewsPage = () => {
       <button className={styles.newsBtn} onClick={addNews}>
         Add news
       </button>
-      <NewsFeed news={news} setNews={setNews} />
+      <NewsFeed news={news} setNews={setNews} renderLinks={renderLinks} />
     </div>
   );
 };
