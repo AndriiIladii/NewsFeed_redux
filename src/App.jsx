@@ -1,4 +1,6 @@
+//node modules
 import React from "react";
+// components
 import NewsPage from "./components/NewsPage";
 
 const App = () => {
