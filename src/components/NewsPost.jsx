@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as styles from "./NewsPost.module.css";
 
-const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
+const NewsPost = ({ news, setNews }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
 
@@ -9,8 +9,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
     setComment(e.target.value);
   }
 
-  function handleComment(id) {
-    // handleAddComment более информативно
+  function handleAddComment(id) {
     setCommentId(id);
   }
 
@@ -18,16 +17,49 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
     setComment(event.target.value);
   }
 
+  function renderLinks(str, links) {
+    const textParts = str.split("{link}");
+    return textParts.map((item, index) => {
+      return (
+        <span key={index}>
+          {item}
+          {links[index] && <a href={links[index]}>{links[index]}</a>}
+        </span>
+      );
+    });
+  }
+
+  function handleShare(id) {
+    const url = `http://localhost:3000/#${id}`;
+    const el = document.createElement("textarea");
+    el.value = url;
+
+    document.body.appendChild(el);
+    el.select();
+
+    document.execCommand("copy");
+
+    alert("The data copied successfully! press `ctrl+v` to see output");
+    document.body.removeChild(el);
+  }
+
+  function handleLikes(id) {
+    let updateLikes = news.map(
+      (
+        item // переменная updateLikes не меняется дальше по коду
+      ) => (item.id === id ? { ...item, likes: item.likes + 1 } : item)
+    );
+    setNews(updateLikes);
+  }
+
   function addComment() {
-    if (comment !== "") {
-      // "" === false
+    if (comment) {
       const newComment = {
         id: Date.now(),
         value: comment,
       };
 
-      const updateComment = news.map((newsPost) => {
-        // можно назвать newNews, как ты делал в похожей функции (для консистентности(чтоб везде было одинаково))
+      const newNews = news.map((newsPost) => {
         if (newsPost.id === commentId) {
           return {
             ...newsPost,
@@ -36,30 +68,28 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
         }
         return newsPost;
       });
-      setNews(updateComment);
+      setNews(newNews);
       setComment("");
       setCommentId(null);
     }
   }
 
-  function deleteComment(PostId, id) {
-    // обычные переменные лучше прописывать camelCase-ом
-    const updateNews = news.map((newsPost) => {
-      if (newsPost.id === PostId) {
-        const updateDelete = newsPost.comments.filter(
-          // можно в названии переменной упоминать комменты
-          (comment) => comment.id !== id
+  function deleteComment(postId, commentId) {
+    const updatedNews = news.map((newsPost) => {
+      if (newsPost.id === postId) {
+        const updatedComments = newsPost.comments.filter(
+          (comment) => comment.id !== commentId
         );
         return {
           ...newsPost,
-          comments: updateDelete,
+          comments: updatedComments,
         };
       }
 
       return newsPost;
     });
 
-    setNews(updateNews);
+    setNews(updatedNews);
   }
 
   function editComment(commentId, value) {
@@ -112,7 +142,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
                 <span>{newsPost.likes}</span>
                 Like
               </button>
-              <button onClick={() => handleComment(newsPost.id)}>
+              <button onClick={() => handleAddComment(newsPost.id)}>
                 Comment
               </button>
               <button onClick={() => handleShare(newsPost.id)}>Share</button>
