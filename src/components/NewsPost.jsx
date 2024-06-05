@@ -1,4 +1,6 @@
+//node modules
 import React, { useState } from "react";
+//styles
 import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, setNews }) => {

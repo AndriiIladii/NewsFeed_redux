@@ -1,7 +1,10 @@
+//node modules
 import React, { useState, useEffect, useRef } from "react";
+// components
 import NewsFeed from "./NewsFeed";
-import { getBase64 } from "./utils";
-import { extractLinks } from "./utils";
+//utils
+import { getBase64, extractLinks } from "./utils";
+//styles
 import * as styles from "./NewsPage.module.css";
 
 const NewsPage = () => {
