@@ -10,6 +10,7 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
   }
 
   function handleComment(id) {
+    // handleAddComment более информативно
     setCommentId(id);
   }
 
@@ -19,12 +20,14 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
 
   function addComment() {
     if (comment !== "") {
+      // "" === false
       const newComment = {
         id: Date.now(),
         value: comment,
       };
 
       const updateComment = news.map((newsPost) => {
+        // можно назвать newNews, как ты делал в похожей функции (для консистентности(чтоб везде было одинаково))
         if (newsPost.id === commentId) {
           return {
             ...newsPost,
@@ -40,9 +43,11 @@ const NewsPost = ({ news, handleLikes, handleShare, setNews, renderLinks }) => {
   }
 
   function deleteComment(PostId, id) {
+    // обычные переменные лучше прописывать camelCase-ом
     const updateNews = news.map((newsPost) => {
       if (newsPost.id === PostId) {
         const updateDelete = newsPost.comments.filter(
+          // можно в названии переменной упоминать комменты
           (comment) => comment.id !== id
         );
         return {
