@@ -44,10 +44,8 @@ const NewsPost = ({ news, setNews }) => {
   }
 
   function handleLikes(id) {
-    let updateLikes = news.map(
-      (
-        item // переменная updateLikes не меняется дальше по коду
-      ) => (item.id === id ? { ...item, likes: item.likes + 1 } : item)
+    const updateLikes = news.map((item) =>
+      item.id === id ? { ...item, likes: item.likes + 1 } : item
     );
     setNews(updateLikes);
   }
