@@ -1,5 +1,7 @@
 //node modules
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addNews, loadNews, saveNews } from "../store/action";
 // components
 import NewsFeed from "./NewsFeed";
 //utils
@@ -12,14 +14,21 @@ const NewsPage = () => {
   const [news, setNews] = useState([]);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    const storedNews = JSON.parse(localStorage.getItem("newNews")) || [];
-    setNews(storedNews);
-  }, []);
+  const localNews = useSelector((state) => state.news);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("newNews", JSON.stringify(news));
-  }, [news]);
+    dispatch(loadNews(news));
+
+    const handleBeforeUnload = () => {
+      dispatch(saveNews(news));
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,7 +46,7 @@ const NewsPage = () => {
     setCreateNewPostValue(event.target.value);
   }
 
-  async function addNews() {
+  async function handleAddNews() {
     if (createNewPostValue) {
       let image = fileInputRef.current.files[0];
 
@@ -56,8 +65,8 @@ const NewsPage = () => {
         links,
       };
 
-      const updateNews = [newNews, ...news];
-      setNews(updateNews);
+      dispatch(addNews(newNews));
+      setNews([newNews, ...news]);
       setCreateNewPostValue("");
       fileInputRef.current.value = null;
     }
@@ -78,10 +87,10 @@ const NewsPage = () => {
       <div>
         <input ref={fileInputRef} type="file" />
       </div>
-      <button className={styles.newsBtn} onClick={addNews}>
+      <button className={styles.newsBtn} onClick={handleAddNews}>
         Add news
       </button>
-      <NewsFeed news={news} setNews={setNews} />
+      <NewsFeed news={localNews} setNews={setNews} />
     </div>
   );
 };
