@@ -1,11 +1,15 @@
 //node modules
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addLike } from "../store/action";
 //styles
 import * as styles from "./NewsPost.module.css";
 
 const NewsPost = ({ news, setNews }) => {
   const [comment, setComment] = useState("");
   const [commentId, setCommentId] = useState(null);
+
+  const dispatch = useDispatch();
 
   function handleCommentChange(e) {
     setComment(e.target.value);
@@ -46,10 +50,7 @@ const NewsPost = ({ news, setNews }) => {
   }
 
   function handleLikes(id) {
-    const updateLikes = news.map((item) =>
-      item.id === id ? { ...item, likes: item.likes + 1 } : item
-    );
-    setNews(updateLikes);
+    dispatch(addLike(id));
   }
 
   function addComment() {

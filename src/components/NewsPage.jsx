@@ -56,17 +56,17 @@ const NewsPage = () => {
 
       const [text, links] = extractLinks(createNewPostValue);
 
-      const newNews = {
-        id: Date.now(),
-        value: text,
-        likes: 0,
-        image,
-        comments: [],
-        links,
-      };
+      dispatch(
+        addNews({
+          id: Date.now(),
+          value: text,
+          likes: 0,
+          image,
+          comments: [],
+          links,
+        })
+      );
 
-      dispatch(addNews(newNews));
-      setNews([newNews, ...news]);
       setCreateNewPostValue("");
       fileInputRef.current.value = null;
     }

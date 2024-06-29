@@ -12,3 +12,8 @@ export const loadNews = (news) => ({
   type: "LOAD_NEWS",
   payload: news,
 });
+
+export const addLike = (id) => ({
+  type: "ADD_LIKE",
+  payload: id,
+});

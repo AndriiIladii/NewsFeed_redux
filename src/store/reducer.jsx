@@ -4,6 +4,7 @@ const initialState = {
 
 const newsFeedReducer = (state = initialState, action) => {
   switch (action.type) {
+    // NewsPage
     case "ADD_NEWS": {
       return {
         news: state.news.concat(action.payload),
@@ -20,6 +21,16 @@ const newsFeedReducer = (state = initialState, action) => {
       };
     }
 
+    // NewsPage
+    // NewsPost
+    case "ADD_LIKE": {
+      return {
+        news: state.news.map((item) =>
+          item.id === action.payload ? { ...item, likes: item.likes + 1 } : item
+        ),
+      };
+    }
+    // NewsPost
     default:
       return state;
   }
