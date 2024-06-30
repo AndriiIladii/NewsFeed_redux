@@ -1,7 +1,12 @@
 //node modules
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addLike } from "../store/action";
+import { useDispatch } from "react-redux";
+import {
+  addLike,
+  addNewComment,
+  deleteComment,
+  handleCopyUrl,
+} from "../store/action";
 //styles
 import * as styles from "./NewsPost.module.css";
 
@@ -36,17 +41,7 @@ const NewsPost = ({ news, setNews }) => {
   }
 
   function handleShare(id) {
-    const url = `http://localhost:3000/#${id}`;
-    const el = document.createElement("textarea");
-    el.value = url;
-
-    document.body.appendChild(el);
-    el.select();
-
-    document.execCommand("copy");
-
-    alert("The data copied successfully! press `ctrl+v` to see output");
-    document.body.removeChild(el);
+    dispatch(handleCopyUrl(id));
   }
 
   function handleLikes(id) {
@@ -60,37 +55,14 @@ const NewsPost = ({ news, setNews }) => {
         value: comment,
       };
 
-      const newNews = news.map((newsPost) => {
-        if (newsPost.id === commentId) {
-          return {
-            ...newsPost,
-            comments: [newComment, ...newsPost.comments],
-          };
-        }
-        return newsPost;
-      });
-      setNews(newNews);
+      dispatch(addNewComment(commentId, newComment));
       setComment("");
       setCommentId(null);
     }
   }
 
-  function deleteComment(postId, commentId) {
-    const updatedNews = news.map((newsPost) => {
-      if (newsPost.id === postId) {
-        const updatedComments = newsPost.comments.filter(
-          (comment) => comment.id !== commentId
-        );
-        return {
-          ...newsPost,
-          comments: updatedComments,
-        };
-      }
-
-      return newsPost;
-    });
-
-    setNews(updatedNews);
+  function handleDeleteComment(postId, commentId) {
+    dispatch(deleteComment(postId, commentId));
   }
 
   function editComment(commentId, value) {
@@ -179,7 +151,7 @@ const NewsPost = ({ news, setNews }) => {
                       </button>
                       <button
                         onClick={() =>
-                          deleteComment(newsPost.id, commentItem.id)
+                          handleDeleteComment(newsPost.id, commentItem.id)
                         }
                       >
                         Delete
